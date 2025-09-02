@@ -29,7 +29,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white overflow-x-hidden">
+    <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
       <Navigation
         filterState={filterState}
         onFilterChange={handleFilterChange}
@@ -41,19 +41,19 @@ function App() {
         <Timeline filterState={filterState} />
         <ImpactHeatmap />
         
-        <section id="skills" className="py-24 bg-gradient-to-br from-gray-800 via-gray-900 to-black relative overflow-hidden">
+        <section id="skills" className="py-24 bg-gradient-to-br from-white via-gray-50/50 to-blue-50/30 relative overflow-hidden">
           {/* Background Effects */}
           <div className="absolute inset-0">
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/8 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/8 rounded-full blur-3xl"></div>
           </div>
           
           <div className="relative z-10 max-w-6xl mx-auto px-6">
             <div className="text-center mb-20">
-              <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-white via-blue-200 to-white bg-clip-text text-transparent mb-6">
+              <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-gray-900 via-blue-700 to-gray-900 bg-clip-text text-transparent mb-6">
                 Skills & Expertise
               </h2>
-              <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 A comprehensive view of technical and leadership capabilities that drive results
               </p>
             </div>

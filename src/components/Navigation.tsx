@@ -57,8 +57,8 @@ export const Navigation: React.FC<NavigationProps> = ({
         animate={{ y: 0 }}
         className={`fixed top-0 w-full z-50 transition-all duration-500 ${
           isScrolled 
-            ? 'bg-gray-900/95 backdrop-blur-xl border-b border-gray-800/50 shadow-2xl' 
-            : 'bg-transparent'
+            ? 'bg-white/95 backdrop-blur-xl border-b border-gray-200/50 shadow-lg' 
+            : 'bg-white/80 backdrop-blur-sm'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-4">
@@ -67,8 +67,8 @@ export const Navigation: React.FC<NavigationProps> = ({
               whileHover={{ scale: 1.05 }}
               className="flex items-center gap-2"
             >
-              <Sparkles className="w-6 h-6 text-blue-400" />
-              <span className="text-xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+              <Sparkles className="w-6 h-6 text-blue-600" />
+              <span className="text-xl font-bold bg-gradient-to-r from-gray-900 to-blue-700 bg-clip-text text-transparent">
                 Prateek Kiran
               </span>
             </motion.div>
@@ -83,10 +83,10 @@ export const Navigation: React.FC<NavigationProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ scale: 1.1 }}
-                  className="text-gray-300 hover:text-white transition-colors duration-200 font-medium relative group"
+                  className="text-gray-700 hover:text-blue-700 transition-colors duration-200 font-medium relative group"
                 >
                   {item.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all duration-300"></span>
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
                 </motion.a>
               ))}
               <motion.button
@@ -100,7 +100,7 @@ export const Navigation: React.FC<NavigationProps> = ({
 
             {/* Mobile Menu Toggle */}
             <button
-              className="md:hidden text-white p-2 hover:bg-gray-800 rounded-lg transition-colors"
+              className="md:hidden text-gray-700 p-2 hover:bg-gray-100 rounded-lg transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -115,20 +115,20 @@ export const Navigation: React.FC<NavigationProps> = ({
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-gray-900/98 backdrop-blur-xl border-t border-gray-800"
+              className="md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200"
             >
               <div className="px-6 py-4 space-y-4">
                 {navItems.map((item) => (
                   <a
                     key={item.label}
                     href={item.href}
-                    className="block text-gray-300 hover:text-white transition-colors duration-200 py-2"
+                    className="block text-gray-700 hover:text-blue-700 transition-colors duration-200 py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item.label}
                   </a>
                 ))}
-                <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold">
+                <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg">
                   Hire Me
                 </button>
               </div>
@@ -142,27 +142,27 @@ export const Navigation: React.FC<NavigationProps> = ({
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className={`fixed top-20 w-full z-40 transition-all duration-500 ${
-          isScrolled ? 'bg-gray-900/90 backdrop-blur-xl' : 'bg-gray-900/70'
-        } border-b border-gray-800/50`}
+        className={`fixed top-20 lg:top-24 w-full z-40 transition-all duration-500 ${
+          isScrolled ? 'bg-white/90 backdrop-blur-xl' : 'bg-white/70 backdrop-blur-sm'
+        } border-b border-gray-200/50 shadow-sm`}
       >
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex flex-col lg:flex-row gap-4 items-center">
             {/* Enhanced Search */}
             <div className="relative flex-1 max-w-md group">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-blue-400 transition-colors" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-blue-600 transition-colors" />
               <input
                 type="text"
                 placeholder="Search skills, projects, achievements..."
                 value={filterState.searchTerm}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className="w-full bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-xl pl-12 pr-4 py-3 text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 hover:bg-gray-800/80"
+                className="w-full bg-white border border-gray-300 rounded-xl pl-12 pr-4 py-3 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-300 hover:border-gray-400 shadow-sm"
               />
             </div>
 
             {/* Enhanced Filters */}
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 text-gray-400">
+              <div className="flex items-center gap-2 text-gray-600">
                 <Filter className="w-5 h-5" />
                 <span className="text-sm font-medium">Filter by:</span>
               </div>
@@ -176,10 +176,10 @@ export const Navigation: React.FC<NavigationProps> = ({
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => toggleFilter(filter)}
-                    className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 relative overflow-hidden ${
+                    className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 relative overflow-hidden shadow-sm ${
                       filterState.activeFilters.includes(filter)
                         ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25'
-                        : 'bg-gray-800/60 text-gray-300 hover:bg-gray-700/80 hover:text-white border border-gray-700/50 hover:border-gray-600'
+                        : 'bg-white text-gray-700 hover:bg-gray-50 hover:text-blue-700 border border-gray-300 hover:border-blue-400'
                     }`}
                   >
                     <span className="relative z-10">{filter}</span>

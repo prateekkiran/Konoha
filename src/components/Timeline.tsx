@@ -33,24 +33,24 @@ const RoleCard: React.FC<{ role: Role; org: string; location?: string; index: nu
         className="relative group"
       >
         {/* Glow Effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         
-        <div className="relative bg-gray-800/60 backdrop-blur-xl rounded-2xl p-8 border border-gray-700/50 hover:border-blue-500/30 transition-all duration-500 hover:transform hover:scale-[1.02]">
+        <div className="relative bg-white shadow-lg hover:shadow-xl rounded-2xl p-8 border border-gray-200 hover:border-blue-300 transition-all duration-500 hover:transform hover:scale-[1.02]">
           <div className="flex justify-between items-start mb-6">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-3">
-                <Sparkles className="w-5 h-5 text-blue-400" />
-                <h3 className="text-2xl font-bold text-white group-hover:text-blue-300 transition-colors">
+                <Sparkles className="w-5 h-5 text-blue-600" />
+                <h3 className="text-2xl font-bold text-gray-900 group-hover:text-blue-700 transition-colors">
                   {role.title}
                 </h3>
               </div>
               
-              <div className="flex items-center text-gray-400 text-sm mb-2">
+              <div className="flex items-center text-gray-600 text-sm mb-2">
                 <Calendar className="w-4 h-4 mr-2" />
                 {formatDate(role.start)} - {formatDate(role.end)}
               </div>
               
-              <div className="flex items-center text-gray-400 text-sm">
+              <div className="flex items-center text-gray-600 text-sm">
                 <MapPin className="w-4 h-4 mr-2" />
                 {org} {location && `• ${location}`}
               </div>
@@ -61,7 +61,7 @@ const RoleCard: React.FC<{ role: Role; org: string; location?: string; index: nu
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedCaseStudy(role.caseStudy)}
-                className="flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 hover:from-blue-600/30 hover:to-purple-600/30 text-blue-400 hover:text-blue-300 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40"
+                className="flex items-center gap-2 bg-gradient-to-r from-blue-600/10 to-purple-600/10 hover:from-blue-600/20 hover:to-purple-600/20 text-blue-700 hover:text-blue-800 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 border border-blue-300/50 hover:border-blue-400 shadow-sm"
               >
                 <TrendingUp className="w-4 h-4" />
                 Case Study
@@ -76,7 +76,7 @@ const RoleCard: React.FC<{ role: Role; org: string; location?: string; index: nu
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.5, delay: (index * 0.1) + (tagIndex * 0.05) }}
-                className="px-3 py-1.5 bg-gradient-to-r from-blue-600/20 to-purple-600/20 text-blue-300 text-sm rounded-full border border-blue-500/20 font-medium"
+                className="px-3 py-1.5 bg-gradient-to-r from-blue-600/10 to-purple-600/10 text-blue-700 text-sm rounded-full border border-blue-300/50 font-medium hover:border-blue-400 transition-colors"
               >
                 {tag}
               </motion.span>
@@ -90,9 +90,9 @@ const RoleCard: React.FC<{ role: Role; org: string; location?: string; index: nu
                 initial={{ opacity: 0, x: -20 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.6, delay: (index * 0.1) + (idx * 0.1) }}
-                className="text-gray-300 text-sm flex items-start leading-relaxed"
+                className="text-gray-700 text-sm flex items-start leading-relaxed"
               >
-                <Zap className="text-blue-400 mr-3 mt-0.5 w-4 h-4 flex-shrink-0" />
+                <Zap className="text-blue-600 mr-3 mt-0.5 w-4 h-4 flex-shrink-0" />
                 <span>{highlight}</span>
               </motion.li>
             ))}
@@ -144,7 +144,7 @@ export const Timeline: React.FC<TimelineProps> = ({ filterState }) => {
   })).filter(org => org.roles.length > 0);
 
   return (
-    <section id="timeline" className="py-24 bg-gradient-to-br from-gray-900 via-gray-800 to-black relative overflow-hidden">
+    <section id="timeline" className="py-24 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20 relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
@@ -159,10 +159,10 @@ export const Timeline: React.FC<TimelineProps> = ({ filterState }) => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-white via-blue-200 to-white bg-clip-text text-transparent mb-6">
+          <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-gray-900 via-blue-700 to-gray-900 bg-clip-text text-transparent mb-6">
             Journey Map
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             A visual timeline of product leadership, innovation, and measurable impact
           </p>
         </motion.div>
@@ -188,9 +188,9 @@ export const Timeline: React.FC<TimelineProps> = ({ filterState }) => {
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-sm opacity-70"></div>
                 </motion.div>
                 <div>
-                  <h3 className="text-3xl font-bold text-white">{org.org}</h3>
+                  <h3 className="text-3xl font-bold text-gray-900">{org.org}</h3>
                   {org.location && (
-                    <span className="text-gray-400 text-lg">• {org.location}</span>
+                    <span className="text-gray-600 text-lg">• {org.location}</span>
                   )}
                 </div>
               </div>
@@ -226,8 +226,8 @@ export const Timeline: React.FC<TimelineProps> = ({ filterState }) => {
             animate={{ opacity: 1 }}
             className="text-center py-20"
           >
-            <div className="bg-gray-800/40 backdrop-blur-sm rounded-2xl p-12 border border-gray-700/50 max-w-md mx-auto">
-              <p className="text-gray-400 text-lg mb-4">No results found</p>
+            <div className="bg-white shadow-lg rounded-2xl p-12 border border-gray-200 max-w-md mx-auto">
+              <p className="text-gray-600 text-lg mb-4">No results found</p>
               <p className="text-gray-500 text-sm">Try adjusting your search or filters to see more content.</p>
             </div>
           </motion.div>

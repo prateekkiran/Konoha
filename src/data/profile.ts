@@ -20,10 +20,10 @@ export const kpis: KPI[] = [
     description: "Decade of transforming vision into market outcomes"
   },
   { 
-    label: "Programs Overseen", 
+    label: "Program Value Overseen", 
     value: 390, 
     suffix: "M+",
-    description: "Large-scale modernization and transformation programs"
+    description: "Led data modernization initiatives valued at $390M+ USD"
   },
   { 
     label: "Cycle Time Reduction", 
