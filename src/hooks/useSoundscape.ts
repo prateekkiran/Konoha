@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 type AlarmTone = 'gentleChime' | 'deepFocus' | 'brightPulse';
+type AmbientMode = 'waves' | 'clouds' | 'gradient';
 
 type UniversalAudioContext = AudioContext & {
   resume: () => Promise<void>;
@@ -160,6 +161,26 @@ const createTickBuffer = (context: AudioContext) => {
   return buffer;
 };
 
+const createNoiseBuffer = (context: AudioContext) => {
+  const durationSeconds = 2.5;
+  const sampleRate = context.sampleRate;
+  const frameCount = Math.floor(sampleRate * durationSeconds);
+  const buffer = context.createBuffer(1, frameCount, sampleRate);
+  const data = buffer.getChannelData(0);
+
+  for (let i = 0; i < frameCount; i += 1) {
+    data[i] = Math.random() * 2 - 1;
+  }
+
+  return buffer;
+};
+
+interface AmbientHandle {
+  mode: AmbientMode;
+  gain: GainNode;
+  sources: (AudioBufferSourceNode | OscillatorNode | AudioNode)[];
+}
+
 export const useSoundscape = () => {
   const [selectedTone, setSelectedTone] = useState<AlarmTone>('gentleChime');
   const [isReady, setIsReady] = useState(false);
@@ -167,12 +188,27 @@ export const useSoundscape = () => {
   const tickIntervalRef = useRef<number | null>(null);
   const tickBufferRef = useRef<AudioBuffer | null>(null);
   const tickVolumeRef = useRef(0.35);
+  const ambientRef = useRef<AmbientHandle | null>(null);
 
   useEffect(() => {
     return () => {
       if (tickIntervalRef.current) {
         window.clearInterval(tickIntervalRef.current);
         tickIntervalRef.current = null;
+      }
+      if (ambientRef.current) {
+        ambientRef.current.sources.forEach((node) => {
+          if ('stop' in node && typeof node.stop === 'function') {
+            try {
+              node.stop();
+            } catch (error) {
+              // no-op
+            }
+          }
+          node.disconnect?.();
+        });
+        ambientRef.current.gain.disconnect();
+        ambientRef.current = null;
       }
       if (contextRef.current) {
         contextRef.current.close().catch(() => undefined);
@@ -289,6 +325,119 @@ export const useSoundscape = () => {
     tickVolumeRef.current = value;
   }, []);
 
+  const stopAmbient = useCallback(() => {
+    if (!ambientRef.current) return;
+    ambientRef.current.sources.forEach((node) => {
+      if ('stop' in node && typeof node.stop === 'function') {
+        try {
+          node.stop();
+        } catch (error) {
+          // ignore
+        }
+      }
+      node.disconnect?.();
+    });
+    ambientRef.current.gain.disconnect();
+    ambientRef.current = null;
+  }, []);
+
+  const startAmbient = useCallback(
+    async (mode: AmbientMode, volume: number) => {
+      const ctx = await ensureContext();
+      if (!ctx) return false;
+
+      const safeVolume = Math.max(0.0001, volume);
+
+      if (ambientRef.current?.mode === mode) {
+        ambientRef.current.gain.gain.setTargetAtTime(safeVolume, ctx.currentTime, 0.4);
+        return true;
+      }
+
+      stopAmbient();
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(safeVolume, ctx.currentTime);
+      gain.connect(ctx.destination);
+      const sources: (AudioBufferSourceNode | OscillatorNode | AudioNode)[] = [];
+
+      const noiseBuffer = createNoiseBuffer(ctx);
+      const noiseSource = ctx.createBufferSource();
+      noiseSource.buffer = noiseBuffer;
+      noiseSource.loop = true;
+
+      const filter = ctx.createBiquadFilter();
+      const chorus = ctx.createDelay();
+
+      if (mode === 'waves') {
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(420, ctx.currentTime);
+        chorus.delayTime.setValueAtTime(0.22, ctx.currentTime);
+        const lfo = ctx.createOscillator();
+        const lfoGain = ctx.createGain();
+        lfo.type = 'sine';
+        lfo.frequency.value = 0.15;
+        lfoGain.gain.value = 180;
+        lfo.connect(lfoGain);
+        lfoGain.connect(filter.frequency);
+        lfo.start();
+        sources.push(lfo, lfoGain);
+      } else if (mode === 'clouds') {
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(800, ctx.currentTime);
+        filter.Q.setValueAtTime(1.6, ctx.currentTime);
+        chorus.delayTime.setValueAtTime(0.12, ctx.currentTime);
+      } else {
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1400, ctx.currentTime);
+        filter.Q.setValueAtTime(0.7, ctx.currentTime);
+        chorus.delayTime.setValueAtTime(0.18, ctx.currentTime);
+        const shimmer = ctx.createOscillator();
+        shimmer.type = 'sawtooth';
+        shimmer.frequency.setValueAtTime(220, ctx.currentTime);
+        const shimmerGain = ctx.createGain();
+        shimmerGain.gain.setValueAtTime(0.08, ctx.currentTime);
+        shimmer.connect(shimmerGain);
+        shimmerGain.connect(gain);
+        shimmer.start();
+        sources.push(shimmer, shimmerGain);
+      }
+
+      const panner = ctx.createStereoPanner();
+      const panLfo = ctx.createOscillator();
+      panLfo.type = 'sine';
+      panLfo.frequency.setValueAtTime(0.05, ctx.currentTime);
+      const panGain = ctx.createGain();
+      panGain.gain.setValueAtTime(0.85, ctx.currentTime);
+      panLfo.connect(panGain);
+      panGain.connect(panner.pan);
+      panLfo.start();
+
+      noiseSource.connect(filter);
+      filter.connect(chorus);
+      chorus.connect(panner);
+      panner.connect(gain);
+
+      noiseSource.start();
+
+      sources.push(noiseSource, filter, chorus, panner, panLfo, panGain);
+
+      ambientRef.current = {
+        mode,
+        gain,
+        sources,
+      };
+
+      return true;
+    },
+    [ensureContext, stopAmbient],
+  );
+
+  const setAmbientVolume = useCallback((value: number) => {
+    const ctx = contextRef.current;
+    if (!ctx || !ambientRef.current) return;
+    ambientRef.current.gain.gain.setTargetAtTime(Math.max(0.0001, value), ctx.currentTime, 0.3);
+  }, []);
+
   return {
     isSupported: isAudioSupported(),
     isReady,
@@ -299,7 +448,10 @@ export const useSoundscape = () => {
     startTicking,
     stopTicking,
     setTickLoopVolume,
+    startAmbient,
+    stopAmbient,
+    setAmbientVolume,
   } as const;
 };
 
-export type { AlarmTone };
+export type { AlarmTone, AmbientMode };

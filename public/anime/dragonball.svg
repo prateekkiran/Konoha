@@ -1,0 +1,18 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="dbGradient" cx="0.5" cy="0.35" r="0.8">
+      <stop offset="0%" stop-color="#facc15" />
+      <stop offset="70%" stop-color="#f97316" />
+      <stop offset="100%" stop-color="#ef4444" />
+    </radialGradient>
+  </defs>
+  <rect width="240" height="160" rx="26" fill="url(#dbGradient)" />
+  <g fill="rgba(255,255,255,0.75)">
+    <circle cx="70" cy="80" r="9" />
+    <circle cx="90" cy="60" r="9" />
+    <circle cx="110" cy="80" r="9" />
+    <circle cx="130" cy="60" r="9" />
+    <circle cx="150" cy="80" r="9" />
+  </g>
+  <text x="120" y="112" text-anchor="middle" font-family="'Bangers','Impact',sans-serif" font-size="34" fill="#1f2937" letter-spacing="4">Dragon Ball</text>
+</svg>

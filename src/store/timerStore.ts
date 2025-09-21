@@ -234,18 +234,29 @@ export const useTimerStore = create<TimerState>()(
         presets: state.presets,
         selectedPresetId: state.selectedPresetId,
       }),
-      migrate: (persistedState, version) => {
-        if (!persistedState) return persistedState;
-        if (version >= 2) {
+      migrate: (persistedState: unknown, version) => {
+        if (!persistedState || typeof persistedState !== 'object') {
           return {
-            ...persistedState,
-            presets: persistedState.presets ?? [],
-            selectedPresetId: persistedState.selectedPresetId ?? null,
+            config: initialConfig,
+            presets: [],
+            selectedPresetId: null,
           };
         }
 
-        const legacyPreset = (persistedState as { savedPreset?: TimerPreset | null }).savedPreset;
-        const legacyConfig = (persistedState as { config?: TimerConfig }).config ?? initialConfig;
+        const state = persistedState as Partial<TimerState> & {
+          savedPreset?: TimerPreset | null;
+        };
+
+        if (version >= 2) {
+          return {
+            config: state.config ?? initialConfig,
+            presets: state.presets ?? [],
+            selectedPresetId: state.selectedPresetId ?? null,
+          };
+        }
+
+        const legacyPreset = state.savedPreset;
+        const legacyConfig = state.config ?? initialConfig;
         const migratedPreset = legacyPreset
           ? [{
               id: generatePresetId(),
@@ -259,7 +270,6 @@ export const useTimerStore = create<TimerState>()(
           : [];
 
         return {
-          ...persistedState,
           config: legacyConfig,
           presets: migratedPreset,
           selectedPresetId: migratedPreset.length ? migratedPreset[0].id : null,

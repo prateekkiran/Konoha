@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import TimerDisplay from './components/TimerDisplay';
+import QuoteShowcase, { AnimeQuote } from './components/QuoteShowcase';
 import {
   formatDuration,
   getPhaseLabel,
@@ -17,12 +18,12 @@ import {
 } from './store/timerStore';
 import { useTimerEngine } from './hooks/useTimerEngine';
 import { useNotifications } from './hooks/useNotifications';
-import { AlarmTone, useSoundscape } from './hooks/useSoundscape';
+import { AlarmTone, AmbientMode, useSoundscape } from './hooks/useSoundscape';
 import { useMediaPreferencesStore } from './store/preferencesStore';
 
 type ThemeName = 'light' | 'dark' | 'zen';
 type DisplayMode = 'ring' | 'bar';
-type BackgroundMode = 'waves' | 'clouds' | 'gradient';
+type BackgroundMode = AmbientMode;
 
 type TimerStoreShape = ReturnType<typeof useTimerStore.getState>;
 
@@ -53,9 +54,13 @@ const selectMediaSlice = (state: MediaPreferencesShape) => ({
   alarmVolume: state.alarmVolume,
   tickVolume: state.tickVolume,
   tickEnabled: state.tickEnabled,
+  ambientVolume: state.ambientVolume,
+  ambientEnabled: state.ambientEnabled,
   setAlarmVolume: state.setAlarmVolume,
   setTickVolume: state.setTickVolume,
   setTickEnabled: state.setTickEnabled,
+  setAmbientVolume: state.setAmbientVolume,
+  setAmbientEnabled: state.setAmbientEnabled,
 });
 
 const themeStorageKey = 'focusflow:theme';
@@ -63,6 +68,136 @@ const displayStorageKey = 'focusflow:display';
 const backgroundStorageKey = 'focusflow:background';
 const toneStorageKey = 'focusflow:alarm-tone';
 const presetNamePlaceholder = 'My Flow';
+
+const animeQuotes: AnimeQuote[] = [
+  {
+    text: "I'm never going to run away or go back on my word. That's my nindo: my ninja way!",
+    source: 'Naruto Uzumaki',
+    image: '/anime/naruto.svg',
+    accent: '#f97316',
+    background: 'linear-gradient(135deg, rgba(249,115,22,0.78), rgba(250,204,21,0.72))',
+  },
+  {
+    text: "No matter how many people you may lose, you have no choice but to go on living.",
+    source: 'Tanjiro Kamado',
+    image: '/anime/demonslayer.svg',
+    accent: '#ef4444',
+    background: 'linear-gradient(135deg, rgba(15,118,110,0.78), rgba(239,68,68,0.7))',
+  },
+  {
+    text: 'Throughout heaven and earth, I alone am the honored one.',
+    source: 'Satoru Gojo',
+    image: '/anime/jujutsu.svg',
+    accent: '#38bdf8',
+    background: 'linear-gradient(135deg, rgba(14,165,233,0.76), rgba(23,37,84,0.72))',
+  },
+  {
+    text: 'You must go on living... even if it hurts.',
+    source: 'Osamu Dazai',
+    image: '/anime/bungou.svg',
+    accent: '#a855f7',
+    background: 'linear-gradient(135deg, rgba(109,40,217,0.8), rgba(168,85,247,0.7))',
+  },
+  {
+    text: 'Power comes in response to a need, not a desire.',
+    source: 'Son Goku',
+    image: '/anime/dragonball.svg',
+    accent: '#f97316',
+    background: 'radial-gradient(circle at 50% 35%, rgba(250,204,21,0.85), rgba(239,68,68,0.7))',
+  },
+  {
+    text: "I'm going to be King of the Pirates!",
+    source: 'Monkey D. Luffy',
+    image: '/anime/onepiece.svg',
+    accent: '#0ea5e9',
+    background: 'linear-gradient(135deg, rgba(14,165,233,0.78), rgba(16,185,129,0.72))',
+  },
+  {
+    text: 'This world is cruel. But it is also very beautiful.',
+    source: 'Mikasa Ackerman',
+    image: '/anime/aot.svg',
+    accent: '#16a34a',
+    background: 'linear-gradient(135deg, rgba(31,41,55,0.85), rgba(22,163,74,0.6))',
+  },
+  {
+    text: "Even if tomorrow repeats, I'll still fight to protect them.",
+    source: 'Shinpei Ajiro',
+    image: '/anime/summertime.svg',
+    accent: '#38bdf8',
+    background: 'linear-gradient(135deg, rgba(99,102,241,0.75), rgba(56,189,248,0.72))',
+  },
+  {
+    text: "If you're always worried about crushing the ants beneath you, you won't be able to walk.",
+    source: 'Guts',
+    image: '/anime/berserk.svg',
+    accent: '#dc2626',
+    background: 'linear-gradient(135deg, rgba(17,24,39,0.8), rgba(220,38,38,0.7))',
+  },
+  {
+    text: 'The only thing that can change your life is yourself.',
+    source: 'Shinya Kogami',
+    image: '/anime/psychopass.svg',
+    accent: '#0d9488',
+    background: 'linear-gradient(135deg, rgba(2,132,199,0.8), rgba(15,23,42,0.7))',
+  },
+  {
+    text: "You can't ever win if you're always on the defensive.",
+    source: 'L Lawliet',
+    image: '/anime/deathnote.svg',
+    accent: '#f8fafc',
+    background: 'linear-gradient(135deg, rgba(15,23,42,0.85), rgba(75,85,99,0.65))',
+  },
+  {
+    text: 'You have no enemies. No one in this world is your enemy.',
+    source: 'Thors',
+    image: '/anime/vinland.svg',
+    accent: '#22c55e',
+    background: 'linear-gradient(135deg, rgba(20,83,45,0.82), rgba(74,222,128,0.68))',
+  },
+  {
+    text: "I’ll become the person who can stand beside him.",
+    source: 'Kafka Hibino',
+    image: '/anime/kaiju8.svg',
+    accent: '#0ea5e9',
+    background: 'linear-gradient(135deg, rgba(30,41,59,0.85), rgba(14,165,233,0.7))',
+  },
+  {
+    text: 'A peaceful life is worth fighting for.',
+    source: 'Taro Sakamoto',
+    image: '/anime/sakamoto.svg',
+    accent: '#fb7185',
+    background: 'linear-gradient(135deg, rgba(251,113,133,0.8), rgba(252,211,77,0.7))',
+  },
+  {
+    text: "Believe in the things you can't see if you feel them.",
+    source: 'Momo Ayase',
+    image: '/anime/dandadan.svg',
+    accent: '#ec4899',
+    background: 'linear-gradient(135deg, rgba(147,51,234,0.82), rgba(236,72,153,0.7))',
+  },
+  {
+    text: 'I alone am the Monarch.',
+    source: 'Sung Jinwoo',
+    image: '/anime/sololeveling.svg',
+    accent: '#38bdf8',
+    background: 'linear-gradient(135deg, rgba(17,24,39,0.88), rgba(56,189,248,0.68))',
+  },
+  {
+    text: "I'll keep moving forward until I catch you!",
+    source: 'Gon Freecss',
+    image: '/anime/hunterxhunter.svg',
+    accent: '#22c55e',
+    background: 'linear-gradient(135deg, rgba(34,197,94,0.78), rgba(239,68,68,0.65))',
+  },
+  {
+    text: 'My magic is never giving up!',
+    source: 'Asta',
+    image: '/anime/blackclover.svg',
+    accent: '#22c55e',
+    background: 'linear-gradient(135deg, rgba(31,41,55,0.82), rgba(34,197,94,0.7))',
+  },
+];
+
 
 const getStoredValue = <T,>(key: string, fallback: T): T => {
   if (typeof window === 'undefined') return fallback;
@@ -107,24 +242,29 @@ const App = () => {
     alarmVolume,
     tickVolume,
     tickEnabled,
+    ambientVolume,
+    ambientEnabled,
     setAlarmVolume,
     setTickVolume,
     setTickEnabled,
+    setAmbientVolume,
+    setAmbientEnabled,
   } = useMediaPreferencesStore(useShallow(selectMediaSlice));
 
   const workspaceRef = useRef<HTMLElement | null>(null);
-  const [theme, setTheme] = useState<ThemeName>(() => getStoredValue(themeStorageKey, 'light'));
+  const [theme, setTheme] = useState<ThemeName>(() => getStoredValue(themeStorageKey, 'dark'));
   const [displayMode, setDisplayMode] = useState<DisplayMode>(() =>
     getStoredValue(displayStorageKey, 'ring'),
   );
   const [backgroundMode, setBackgroundMode] = useState<BackgroundMode>(() =>
-    getStoredValue(backgroundStorageKey, 'waves'),
+    getStoredValue(backgroundStorageKey, 'gradient'),
   );
   const [presetName, setPresetName] = useState('');
   const [tonePreference] = useState<AlarmTone>(() =>
     getStoredValue<AlarmTone>(toneStorageKey, 'gentleChime'),
   );
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [quoteIndex, setQuoteIndex] = useState(() => Math.floor(Math.random() * animeQuotes.length));
 
   const { permission, requestPermission, sendNotification, isSupported: notificationsSupported } =
     useNotifications();
@@ -137,6 +277,9 @@ const App = () => {
     startTicking,
     stopTicking,
     setTickLoopVolume,
+    startAmbient,
+    stopAmbient,
+    setAmbientVolume: setAmbientGain,
     isSupported: audioSupported,
   } = useSoundscape();
 
@@ -177,6 +320,10 @@ const App = () => {
   }, [setTickLoopVolume, tickVolume]);
 
   useEffect(() => {
+    setAmbientGain(ambientVolume);
+  }, [ambientVolume, setAmbientGain]);
+
+  useEffect(() => {
     const shouldTick = tickEnabled && status === 'running' && phase === 'focus';
     if (shouldTick) {
       startTicking(tickVolume).catch(() => undefined);
@@ -188,6 +335,26 @@ const App = () => {
     stopTicking();
     return undefined;
   }, [tickEnabled, phase, status, tickVolume, startTicking, stopTicking]);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (ambientEnabled && audioSupported) {
+      prime()
+        .then(() => {
+          if (!cancelled) {
+            startAmbient(backgroundMode, ambientVolume).catch(() => undefined);
+          }
+        })
+        .catch(() => undefined);
+      return () => {
+        cancelled = true;
+        stopAmbient();
+      };
+    }
+
+    stopAmbient();
+    return undefined;
+  }, [ambientEnabled, backgroundMode, ambientVolume, startAmbient, stopAmbient, prime, audioSupported]);
 
   useEffect(() => {
     const handler = () => {
@@ -223,6 +390,20 @@ const App = () => {
       delete document.body.dataset.focusflowFullscreen;
     };
   }, [isFullscreen]);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setQuoteIndex((index) => (index + 1) % animeQuotes.length);
+    }, 45000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    setQuoteIndex((index) => (index + 1) % animeQuotes.length);
+  }, [phase, backgroundMode]);
+
+  const activeQuote = useMemo(() => animeQuotes[quoteIndex] ?? null, [quoteIndex]);
 
   const handlePhaseComplete = useCallback(
     (completedPhase: 'focus' | 'shortBreak' | 'longBreak') => {
@@ -378,6 +559,15 @@ const App = () => {
     [setTickVolume],
   );
 
+  const handleAmbientVolumeChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = Number(event.target.value);
+      if (Number.isNaN(value)) return;
+      setAmbientVolume(value / 100);
+    },
+    [setAmbientVolume],
+  );
+
   const handleTickToggle = useCallback(
     async (event: ChangeEvent<HTMLInputElement>) => {
       const enabled = event.target.checked;
@@ -389,6 +579,19 @@ const App = () => {
       setTickEnabled(enabled);
     },
     [prime, setTickEnabled, stopTicking],
+  );
+
+  const handleAmbientToggle = useCallback(
+    async (event: ChangeEvent<HTMLInputElement>) => {
+      const enabled = event.target.checked;
+      if (enabled) {
+        await prime();
+      } else {
+        stopAmbient();
+      }
+      setAmbientEnabled(enabled);
+    },
+    [prime, setAmbientEnabled, stopAmbient],
   );
 
   const requestFullscreen = useCallback(async () => {
@@ -531,6 +734,8 @@ const App = () => {
               {isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
             </button>
           </div>
+
+          <QuoteShowcase quote={activeQuote} />
         </article>
 
         <aside className="panel" aria-label="Session controls">
@@ -731,6 +936,20 @@ const App = () => {
                   onChange={handleTickVolumeChange}
                 />
               </label>
+              <label htmlFor="ambient-volume">
+                Ambient sound volume
+                <input
+                  id="ambient-volume"
+                  className="range-input"
+                  type="range"
+                  min={0}
+                  max={100}
+                  step={1}
+                  value={Math.round(ambientVolume * 100)}
+                  onChange={handleAmbientVolumeChange}
+                  disabled={!audioSupported}
+                />
+              </label>
             </div>
 
             <label className="switch" htmlFor="tick-enabled">
@@ -740,6 +959,16 @@ const App = () => {
                 type="checkbox"
                 checked={tickEnabled}
                 onChange={handleTickToggle}
+                disabled={!audioSupported}
+              />
+            </label>
+            <label className="switch" htmlFor="ambient-enabled">
+              <span>Enable ambient sound</span>
+              <input
+                id="ambient-enabled"
+                type="checkbox"
+                checked={ambientEnabled}
+                onChange={handleAmbientToggle}
                 disabled={!audioSupported}
               />
             </label>

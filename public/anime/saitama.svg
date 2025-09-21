@@ -1,0 +1,12 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="saitamaGradient" x1="20" y1="30" x2="220" y2="130" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffea00" />
+      <stop offset="1" stop-color="#f48c06" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="160" rx="24" fill="url(#saitamaGradient)" />
+  <circle cx="90" cy="65" r="32" fill="rgba(255,255,255,0.8)" />
+  <circle cx="150" cy="95" r="28" fill="rgba(255,255,255,0.55)" />
+  <text x="120" y="100" text-anchor="middle" font-family="'Bangers', 'Impact', sans-serif" font-size="38" fill="#2d3142" letter-spacing="2">Saitama</text>
+</svg>

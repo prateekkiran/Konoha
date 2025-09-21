@@ -1,0 +1,11 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sakamotoGradient" x1="30" y1="20" x2="210" y2="150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fb7185" />
+      <stop offset="1" stop-color="#fcd34d" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="160" rx="26" fill="url(#sakamotoGradient)" />
+  <path d="M40 110 C80 70 140 130 200 70" stroke="rgba(255,255,255,0.65)" stroke-width="9" fill="none" stroke-linecap="round" />
+  <text x="120" y="95" text-anchor="middle" font-family="'Bangers','Impact',sans-serif" font-size="30" fill="#1f2937" letter-spacing="4">Sakamoto Days</text>
+</svg>

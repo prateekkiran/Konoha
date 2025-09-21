@@ -1,0 +1,12 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="opGradient" x1="30" y1="140" x2="210" y2="30" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0ea5e9" />
+      <stop offset="1" stop-color="#10b981" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="160" rx="26" fill="url(#opGradient)" />
+  <path d="M45 120 C80 80 120 110 165 70" stroke="rgba(255,255,255,0.65)" stroke-width="9" fill="none" stroke-linecap="round" />
+  <path d="M90 45 L150 115" stroke="rgba(255,255,255,0.4)" stroke-width="7" stroke-linecap="round" />
+  <text x="120" y="94" text-anchor="middle" font-family="'Bangers','Impact',sans-serif" font-size="34" fill="#ecfeff" letter-spacing="4">One Piece</text>
+</svg>

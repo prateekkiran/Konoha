@@ -1,0 +1,12 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="jujutsuGradient" x1="20" y1="140" x2="220" y2="30" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#075985" />
+      <stop offset="1" stop-color="#172554" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="160" rx="26" fill="url(#jujutsuGradient)" />
+  <circle cx="80" cy="80" r="32" stroke="rgba(255,255,255,0.55)" stroke-width="8" fill="none" />
+  <circle cx="160" cy="80" r="32" stroke="rgba(255,255,255,0.35)" stroke-width="8" fill="none" />
+  <text x="120" y="92" text-anchor="middle" font-family="'Bangers','Impact',sans-serif" font-size="26" fill="#bfdbfe" letter-spacing="4">Jujutsu Kaisen</text>
+</svg>

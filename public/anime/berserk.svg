@@ -1,0 +1,11 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="berserkGradient" x1="20" y1="140" x2="220" y2="20" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111827" />
+      <stop offset="1" stop-color="#dc2626" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="160" rx="26" fill="url(#berserkGradient)" />
+  <path d="M60 120 L120 40 L180 120" stroke="rgba(255,255,255,0.65)" stroke-width="12" stroke-linecap="round" fill="none" />
+  <text x="120" y="102" text-anchor="middle" font-family="'Bangers','Impact',sans-serif" font-size="34" fill="#fef2f2" letter-spacing="5">Berserk</text>
+</svg>

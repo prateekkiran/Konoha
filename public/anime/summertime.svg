@@ -1,0 +1,11 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="summerGradient" x1="20" y1="30" x2="220" y2="140" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38bdf8" />
+      <stop offset="1" stop-color="#6366f1" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="160" rx="26" fill="url(#summerGradient)" />
+  <path d="M40 110 C80 60 140 120 200 70" stroke="rgba(255,255,255,0.65)" stroke-width="9" fill="none" stroke-linecap="round" />
+  <text x="120" y="92" text-anchor="middle" font-family="'Bangers','Impact',sans-serif" font-size="22" fill="#e0f2fe" letter-spacing="5">Summertime Rendering</text>
+</svg>

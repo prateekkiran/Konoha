@@ -1,0 +1,12 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="natsuGradient" x1="20" y1="20" x2="220" y2="140" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff9f1c" />
+      <stop offset="1" stop-color="#ff595e" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="160" rx="24" fill="url(#natsuGradient)" />
+  <path d="M55 120 C70 70 120 70 135 120" stroke="rgba(255,255,255,0.8)" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M135 120 C150 70 200 70 185 120" stroke="rgba(255,255,255,0.5)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <text x="120" y="90" text-anchor="middle" font-family="'Bangers', 'Impact', sans-serif" font-size="36" fill="white" letter-spacing="3">Natsu</text>
+</svg>

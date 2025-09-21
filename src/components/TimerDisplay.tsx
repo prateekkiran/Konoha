@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { clsx } from 'clsx';
+import AnimatedBackground from './AnimatedBackground';
 
 const RADIUS = 140;
 const STROKE = 10;
@@ -22,9 +23,9 @@ interface TimerDisplayProps {
 }
 
 const backgroundLabels: Record<BackgroundMode, string> = {
-  waves: 'Gentle waves animation',
-  clouds: 'Slow moving clouds animation',
-  gradient: 'Ambient gradient animation',
+  waves: 'Gentle resonance waves',
+  clouds: 'Lo-fi cloudscape drift',
+  gradient: 'Chromatic aurora stream',
 };
 
 const TimerDisplay = memo(function TimerDisplay({
@@ -41,22 +42,8 @@ const TimerDisplay = memo(function TimerDisplay({
 
   return (
     <section className="timer-display" aria-label="Timer overview">
-      <div className="background-preview" aria-hidden="true">
-        <div
-          className={clsx('background-layer waves', {
-            active: backgroundMode === 'waves',
-          })}
-        />
-        <div
-          className={clsx('background-layer clouds', {
-            active: backgroundMode === 'clouds',
-          })}
-        />
-        <div
-          className={clsx('background-layer gradient', {
-            active: backgroundMode === 'gradient',
-          })}
-        />
+      <div className="background-preview">
+        <AnimatedBackground mode={backgroundMode} active />
       </div>
 
       <div
@@ -100,12 +87,22 @@ const TimerDisplay = memo(function TimerDisplay({
                 }}
               />
             </svg>
-            <div className="timer-value">{timeLabel}</div>
+            <div className="timer-value">
+              <span className="timer-value__label">{timeLabel}</span>
+            </div>
           </div>
         ) : (
-          <div className="progress-bar" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(clampedProgress * 100)}>
+          <div
+            className="progress-bar"
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(clampedProgress * 100)}
+          >
             <div className="progress-bar__value" style={{ width: `${clampedProgress * 100}%` }} />
-            <div className="timer-value">{timeLabel}</div>
+            <div className="timer-value">
+              <span className="timer-value__label">{timeLabel}</span>
+            </div>
           </div>
         )}
         <p id="timer-phase" className="timer-phase">

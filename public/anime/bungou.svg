@@ -1,0 +1,12 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bungouGradient" x1="40" y1="20" x2="200" y2="150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6d28d9" />
+      <stop offset="1" stop-color="#a855f7" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="160" rx="26" fill="url(#bungouGradient)" />
+  <path d="M50 120 C90 60 150 110 190 45" stroke="rgba(255,255,255,0.65)" stroke-width="8" fill="none" stroke-linecap="round" />
+  <text x="120" y="95" text-anchor="middle" font-family="'Bangers','Impact',sans-serif" font-size="32" fill="#ede9fe" letter-spacing="3">Bungou</text>
+  <text x="120" y="123" text-anchor="middle" font-family="'Bangers','Impact',sans-serif" font-size="28" fill="#ede9fe" letter-spacing="2">Stray Dogs</text>
+</svg>

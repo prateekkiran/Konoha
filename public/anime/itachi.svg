@@ -1,0 +1,12 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="itachiGradient" x1="30" y1="140" x2="210" y2="20" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1f1c2c" />
+      <stop offset="1" stop-color="#928dab" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="160" rx="24" fill="url(#itachiGradient)" />
+  <circle cx="80" cy="80" r="32" stroke="rgba(255,255,255,0.7)" stroke-width="8" fill="none" />
+  <circle cx="160" cy="80" r="32" stroke="rgba(255,255,255,0.4)" stroke-width="8" fill="none" />
+  <text x="120" y="90" text-anchor="middle" font-family="'Bangers', 'Impact', sans-serif" font-size="36" fill="#f8f9fa" letter-spacing="4">Itachi</text>
+</svg>

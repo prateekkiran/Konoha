@@ -1,0 +1,11 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="soloGradient" x1="20" y1="20" x2="220" y2="140" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111827" />
+      <stop offset="1" stop-color="#38bdf8" />
+    </linearGradient>
+  </defs>
+  <rect width="240" height="160" rx="26" fill="url(#soloGradient)" />
+  <path d="M60 120 L120 50 L180 120" stroke="rgba(56,189,248,0.65)" stroke-width="10" stroke-linecap="round" fill="none" />
+  <text x="120" y="100" text-anchor="middle" font-family="'Bangers','Impact',sans-serif" font-size="30" fill="#e0f2fe" letter-spacing="4">Solo Leveling</text>
+</svg>

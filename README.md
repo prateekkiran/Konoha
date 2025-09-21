@@ -6,8 +6,9 @@ FocusFlow is a premium-feeling Pomodoro-inspired timer that helps you design dee
 
 - **Adaptive timer engine** for focus, short break, and long break phases with start/pause/resume/reset/skip controls and accurate background ticking.
 - **Custom rhythms** – tweak durations, choose how many focus blocks trigger a long break, enable auto-start, and curate a personal library of presets you can load, update, or delete anytime.
-- **Immersive visuals** – light, dark, and zen themes, animated backgrounds, choice of circular or linear progress, plus a distraction-free fullscreen workspace.
-- **Gentle nudges** – three handcrafted Web Audio alarm tones with live preview, independent alarm & ticking volumes, optional ticking ambience during focus, and browser notifications when each interval completes.
+- **Immersive visuals** – light, dark, and zen themes, canvas-powered animated backgrounds with matching ambient pads, choice of circular or linear progress, plus a distraction-free fullscreen workspace.
+- **Gentle nudges** – three handcrafted Web Audio alarm tones with live preview, independent alarm/ticking/ambient volume sliders, optional ticking ambience during focus, and browser notifications when each interval completes.
+- **Anime groove** – rotating quotes from iconic anime heroes appear inside the timer, keeping motivation fresh while you work.
 - **Accessibility-first** – keyboard friendly, ARIA-labelled controls, high-contrast palettes, reduced motion support, and responsive layouts from mobile to desktop.
 
 ## Getting Started
@@ -31,6 +32,7 @@ Then open `http://localhost:5173`.
 
 - Request notification permission via the **Enable notifications** button in the Notifications & Audio panel. The app respects the browser’s current permission state.
 - Alarm tones are generated with the Web Audio API and respect the alarm volume slider. Interact with the page (e.g., press Start) once to unlock audio playback.
+- Ambient soundscapes auto-sync with the selected background (Waves, Clouds, Aurora). Toggle or fine-tune them anytime.
 - Ticking ambience can be toggled on, and its volume controlled separately. Ticks only play during active focus intervals.
 
 ## Fullscreen Workspace
@@ -46,4 +48,4 @@ Then open `http://localhost:5173`.
 
 ## Roadmap Hints
 
-This release aligns with the PRD’s v1.1 scope: multi-presets, soundscape controls, and fullscreen mode are now present. Future enhancements (volume automation per preset, ticking samples, analytics, etc.) can build on the existing store, preference, and hook structure.
+This release aligns with the PRD’s v1.1 scope: multi-presets, soundscape controls, and fullscreen mode are now present. Future enhancements (volume automation per preset, richer ambient sample packs, analytics, etc.) can build on the existing store, preference, and hook structure.
