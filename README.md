@@ -11,6 +11,13 @@ FocusFlow is a premium-feeling Pomodoro-inspired timer that helps you design dee
 - **Anime groove** – rotating quote showcases with bilingual lines, anime logos, and artwork keep motivation fresh while you work.
 - **Accessibility-first** – keyboard friendly, ARIA-labelled controls, high-contrast palettes, reduced motion support, and responsive layouts from mobile to desktop.
 
+## Interface Highlights
+
+- **Hero nebula** – a story-driven banner with orbiting timer vignette, quick-start CTA, and theme switch hook sets the focus mood right away.
+- **Tactile timer dials** – slider/dial hybrids and descriptive cards make tuning focus, break, and loop cadence fast and satisfying.
+- **Bilingual quote gallery** – oversized cards pair anime logos with Japanese + English lines so every rotation lands with style and clarity.
+- **Theme-aware ambience** – Waves, Clouds, and Aurora each trigger their own melodic pad and animated backdrop for instant atmospheric shifts.
+
 ## Getting Started
 
 ```bash
