@@ -161,24 +161,10 @@ const createTickBuffer = (context: AudioContext) => {
   return buffer;
 };
 
-const createNoiseBuffer = (context: AudioContext) => {
-  const durationSeconds = 2.5;
-  const sampleRate = context.sampleRate;
-  const frameCount = Math.floor(sampleRate * durationSeconds);
-  const buffer = context.createBuffer(1, frameCount, sampleRate);
-  const data = buffer.getChannelData(0);
-
-  for (let i = 0; i < frameCount; i += 1) {
-    data[i] = Math.random() * 2 - 1;
-  }
-
-  return buffer;
-};
-
 interface AmbientHandle {
   mode: AmbientMode;
   gain: GainNode;
-  sources: (AudioBufferSourceNode | OscillatorNode | AudioNode)[];
+  sources: AudioNode[];
 }
 
 export const useSoundscape = () => {
@@ -198,9 +184,9 @@ export const useSoundscape = () => {
       }
       if (ambientRef.current) {
         ambientRef.current.sources.forEach((node) => {
-          if ('stop' in node && typeof node.stop === 'function') {
+          if ('stop' in node && typeof (node as OscillatorNode).stop === 'function') {
             try {
-              node.stop();
+              (node as OscillatorNode).stop();
             } catch (error) {
               // no-op
             }
@@ -328,9 +314,9 @@ export const useSoundscape = () => {
   const stopAmbient = useCallback(() => {
     if (!ambientRef.current) return;
     ambientRef.current.sources.forEach((node) => {
-      if ('stop' in node && typeof node.stop === 'function') {
+      if ('stop' in node && typeof (node as OscillatorNode).stop === 'function') {
         try {
-          node.stop();
+          (node as OscillatorNode).stop();
         } catch (error) {
           // ignore
         }
@@ -358,68 +344,102 @@ export const useSoundscape = () => {
       const gain = ctx.createGain();
       gain.gain.setValueAtTime(safeVolume, ctx.currentTime);
       gain.connect(ctx.destination);
-      const sources: (AudioBufferSourceNode | OscillatorNode | AudioNode)[] = [];
+      const sources: AudioNode[] = [];
 
-      const noiseBuffer = createNoiseBuffer(ctx);
-      const noiseSource = ctx.createBufferSource();
-      noiseSource.buffer = noiseBuffer;
-      noiseSource.loop = true;
+      const register = <T extends AudioNode>(node: T) => {
+        sources.push(node);
+        return node;
+      };
 
-      const filter = ctx.createBiquadFilter();
-      const chorus = ctx.createDelay();
+      const createLfo = (frequency: number, depth: number, destination: AudioParam) => {
+        const lfo = register(ctx.createOscillator());
+        const lfoGain = register(ctx.createGain());
+        lfo.type = 'sine';
+        lfo.frequency.setValueAtTime(frequency, ctx.currentTime);
+        lfoGain.gain.setValueAtTime(depth, ctx.currentTime);
+        lfo.connect(lfoGain);
+        lfoGain.connect(destination);
+        lfo.start();
+      };
 
       if (mode === 'waves') {
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(420, ctx.currentTime);
-        chorus.delayTime.setValueAtTime(0.22, ctx.currentTime);
-        const lfo = ctx.createOscillator();
-        const lfoGain = ctx.createGain();
-        lfo.type = 'sine';
-        lfo.frequency.value = 0.15;
-        lfoGain.gain.value = 180;
-        lfo.connect(lfoGain);
-        lfoGain.connect(filter.frequency);
-        lfo.start();
-        sources.push(lfo, lfoGain);
+        const chord = [196, 246.94, 329.63];
+        chord.forEach((frequency, index) => {
+          const osc = register(ctx.createOscillator());
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(frequency, ctx.currentTime);
+          osc.detune.setValueAtTime(index === 1 ? 7 : -5, ctx.currentTime);
+          const voiceGain = register(ctx.createGain());
+          voiceGain.gain.setValueAtTime(0, ctx.currentTime);
+          voiceGain.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 2.5);
+          voiceGain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 7);
+          osc.connect(voiceGain);
+          voiceGain.connect(gain);
+          createLfo(0.09 + index * 0.02, 0.12, voiceGain.gain);
+          osc.start();
+        });
       } else if (mode === 'clouds') {
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(800, ctx.currentTime);
-        filter.Q.setValueAtTime(1.6, ctx.currentTime);
-        chorus.delayTime.setValueAtTime(0.12, ctx.currentTime);
-      } else {
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(1400, ctx.currentTime);
-        filter.Q.setValueAtTime(0.7, ctx.currentTime);
-        chorus.delayTime.setValueAtTime(0.18, ctx.currentTime);
-        const shimmer = ctx.createOscillator();
-        shimmer.type = 'sawtooth';
-        shimmer.frequency.setValueAtTime(220, ctx.currentTime);
-        const shimmerGain = ctx.createGain();
-        shimmerGain.gain.setValueAtTime(0.08, ctx.currentTime);
-        shimmer.connect(shimmerGain);
-        shimmerGain.connect(gain);
+        const base = register(ctx.createOscillator());
+        base.type = 'triangle';
+        base.frequency.setValueAtTime(174.61, ctx.currentTime);
+        const shimmer = register(ctx.createOscillator());
+        shimmer.type = 'sine';
+        shimmer.frequency.setValueAtTime(2.4, ctx.currentTime);
+
+        const pitchGain = register(ctx.createGain());
+        pitchGain.gain.setValueAtTime(24, ctx.currentTime);
+        shimmer.connect(pitchGain);
+        pitchGain.connect(base.frequency);
+
+        const voiceGain = register(ctx.createGain());
+        voiceGain.gain.setValueAtTime(0, ctx.currentTime);
+        voiceGain.gain.linearRampToValueAtTime(0.28, ctx.currentTime + 1.8);
+        voiceGain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 6);
+
+        const delay = register(ctx.createDelay());
+        delay.delayTime.setValueAtTime(0.32, ctx.currentTime);
+        const feedback = register(ctx.createGain());
+        feedback.gain.setValueAtTime(0.38, ctx.currentTime);
+        delay.connect(feedback);
+        feedback.connect(delay);
+
+        base.connect(voiceGain);
+        voiceGain.connect(delay);
+        delay.connect(gain);
+        voiceGain.connect(gain);
+
+        base.start();
         shimmer.start();
-        sources.push(shimmer, shimmerGain);
+      } else {
+        const pad = register(ctx.createOscillator());
+        pad.type = 'sawtooth';
+        pad.frequency.setValueAtTime(262, ctx.currentTime);
+        const padGain = register(ctx.createGain());
+        padGain.gain.setValueAtTime(0.04, ctx.currentTime);
+
+        const filter = register(ctx.createBiquadFilter());
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1800, ctx.currentTime);
+        filter.Q.setValueAtTime(1.1, ctx.currentTime);
+
+        pad.connect(padGain);
+        padGain.connect(filter);
+        filter.connect(gain);
+        createLfo(0.14, 80, pad.frequency);
+
+        const bell = register(ctx.createOscillator());
+        bell.type = 'sine';
+        bell.frequency.setValueAtTime(523.25, ctx.currentTime);
+        const bellGain = register(ctx.createGain());
+        bellGain.gain.setValueAtTime(0, ctx.currentTime);
+        bellGain.gain.linearRampToValueAtTime(0.22, ctx.currentTime + 1.2);
+        bellGain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 4.5);
+        bell.connect(bellGain);
+        bellGain.connect(gain);
+
+        pad.start();
+        bell.start();
       }
-
-      const panner = ctx.createStereoPanner();
-      const panLfo = ctx.createOscillator();
-      panLfo.type = 'sine';
-      panLfo.frequency.setValueAtTime(0.05, ctx.currentTime);
-      const panGain = ctx.createGain();
-      panGain.gain.setValueAtTime(0.85, ctx.currentTime);
-      panLfo.connect(panGain);
-      panGain.connect(panner.pan);
-      panLfo.start();
-
-      noiseSource.connect(filter);
-      filter.connect(chorus);
-      chorus.connect(panner);
-      panner.connect(gain);
-
-      noiseSource.start();
-
-      sources.push(noiseSource, filter, chorus, panner, panLfo, panGain);
 
       ambientRef.current = {
         mode,

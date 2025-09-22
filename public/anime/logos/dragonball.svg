@@ -1,0 +1,11 @@
+<svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="80" rx="18" fill="url(#dragonLogo)" />
+  <defs>
+    <radialGradient id="dragonLogo" cx="0.5" cy="0.4" r="0.8">
+      <stop offset="0%" stop-color="#facc15" />
+      <stop offset="70%" stop-color="#f97316" />
+      <stop offset="100%" stop-color="#ef4444" />
+    </radialGradient>
+  </defs>
+  <text x="110" y="52" text-anchor="middle" font-family="'Bangers', 'Rajdhani', sans-serif" font-size="30" fill="#111827" letter-spacing="6">DRAGON BALL</text>
+</svg>

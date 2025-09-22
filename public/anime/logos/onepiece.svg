@@ -1,0 +1,10 @@
+<svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="80" rx="18" fill="url(#onepieceLogo)" />
+  <defs>
+    <linearGradient id="onepieceLogo" x1="20" y1="70" x2="200" y2="15" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0ea5e9" />
+      <stop offset="1" stop-color="#10b981" />
+    </linearGradient>
+  </defs>
+  <text x="110" y="50" text-anchor="middle" font-family="'Bangers', 'Rajdhani', sans-serif" font-size="30" fill="#ecfeff" letter-spacing="6">ONE PIECE</text>
+</svg>

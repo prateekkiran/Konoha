@@ -1,0 +1,10 @@
+<svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="80" rx="18" fill="url(#jujutsuLogo)" />
+  <defs>
+    <linearGradient id="jujutsuLogo" x1="20" y1="60" x2="200" y2="20" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0ea5e9" />
+      <stop offset="1" stop-color="#172554" />
+    </linearGradient>
+  </defs>
+  <text x="110" y="48" text-anchor="middle" font-family="'Bangers', 'Rajdhani', sans-serif" font-size="24" fill="#dbeafe" letter-spacing="4">JUJUTSU KAISEN</text>
+</svg>

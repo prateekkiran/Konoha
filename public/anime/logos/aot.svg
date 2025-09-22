@@ -1,0 +1,10 @@
+<svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="80" rx="18" fill="url(#aotLogo)" />
+  <defs>
+    <linearGradient id="aotLogo" x1="20" y1="65" x2="200" y2="20" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1f2937" />
+      <stop offset="1" stop-color="#16a34a" />
+    </linearGradient>
+  </defs>
+  <text x="110" y="48" text-anchor="middle" font-family="'Bangers', 'Rajdhani', sans-serif" font-size="26" fill="#dcfce7" letter-spacing="5">ATTACK ON TITAN</text>
+</svg>

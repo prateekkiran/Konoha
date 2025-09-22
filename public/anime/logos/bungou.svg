@@ -1,0 +1,10 @@
+<svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="80" rx="18" fill="url(#bungouLogo)" />
+  <defs>
+    <linearGradient id="bungouLogo" x1="20" y1="20" x2="200" y2="70" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6d28d9" />
+      <stop offset="1" stop-color="#a855f7" />
+    </linearGradient>
+  </defs>
+  <text x="110" y="46" text-anchor="middle" font-family="'Bangers', 'Rajdhani', sans-serif" font-size="26" fill="#ede9fe" letter-spacing="4">BUNGOU STRAY DOGS</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="80" rx="18" fill="url(#psyLogo)" />
+  <defs>
+    <linearGradient id="psyLogo" x1="20" y1="65" x2="200" y2="20" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0d9488" />
+      <stop offset="1" stop-color="#1f2937" />
+    </linearGradient>
+  </defs>
+  <text x="110" y="48" text-anchor="middle" font-family="'Bangers', 'Rajdhani', sans-serif" font-size="26" fill="#ccfbf1" letter-spacing="4">PSYCHO-PASS</text>
+</svg>

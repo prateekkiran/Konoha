@@ -16,6 +16,7 @@ import {
   progressForPhase,
   useTimerStore,
 } from './store/timerStore';
+import type { TimerConfig } from './store/timerStore';
 import { useTimerEngine } from './hooks/useTimerEngine';
 import { useNotifications } from './hooks/useNotifications';
 import { AlarmTone, AmbientMode, useSoundscape } from './hooks/useSoundscape';
@@ -72,127 +73,163 @@ const presetNamePlaceholder = 'My Flow';
 const animeQuotes: AnimeQuote[] = [
   {
     text: "I'm never going to run away or go back on my word. That's my nindo: my ninja way!",
+    jp: '絶対に逃げねぇし、オレの言葉は曲げねぇ！それがオレの忍道だ！',
     source: 'Naruto Uzumaki',
     image: '/anime/naruto.svg',
+    logo: '/anime/logos/naruto.svg',
     accent: '#f97316',
     background: 'linear-gradient(135deg, rgba(249,115,22,0.78), rgba(250,204,21,0.72))',
   },
   {
     text: "No matter how many people you may lose, you have no choice but to go on living.",
+    jp: 'どれだけ人を失っても、生きていかなければならない。',
     source: 'Tanjiro Kamado',
     image: '/anime/demonslayer.svg',
+    logo: '/anime/logos/demonslayer.svg',
     accent: '#ef4444',
     background: 'linear-gradient(135deg, rgba(15,118,110,0.78), rgba(239,68,68,0.7))',
   },
   {
     text: 'Throughout heaven and earth, I alone am the honored one.',
+    jp: '天上天下唯我独尊。',
     source: 'Satoru Gojo',
     image: '/anime/jujutsu.svg',
+    logo: '/anime/logos/jujutsu.svg',
     accent: '#38bdf8',
     background: 'linear-gradient(135deg, rgba(14,165,233,0.76), rgba(23,37,84,0.72))',
   },
   {
     text: 'You must go on living... even if it hurts.',
+    jp: 'どんなに痛くても、生きていくんだ。',
     source: 'Osamu Dazai',
     image: '/anime/bungou.svg',
+    logo: '/anime/logos/bungou.svg',
     accent: '#a855f7',
     background: 'linear-gradient(135deg, rgba(109,40,217,0.8), rgba(168,85,247,0.7))',
   },
   {
     text: 'Power comes in response to a need, not a desire.',
+    jp: '力は欲望じゃなく、必要に応じて湧き上がるんだ。',
     source: 'Son Goku',
     image: '/anime/dragonball.svg',
+    logo: '/anime/logos/dragonball.svg',
     accent: '#f97316',
     background: 'radial-gradient(circle at 50% 35%, rgba(250,204,21,0.85), rgba(239,68,68,0.7))',
   },
   {
     text: "I'm going to be King of the Pirates!",
+    jp: '海賊王に俺はなる！',
     source: 'Monkey D. Luffy',
     image: '/anime/onepiece.svg',
+    logo: '/anime/logos/onepiece.svg',
     accent: '#0ea5e9',
     background: 'linear-gradient(135deg, rgba(14,165,233,0.78), rgba(16,185,129,0.72))',
   },
   {
     text: 'This world is cruel. But it is also very beautiful.',
+    jp: 'この世界は残酷だ。でもとても美しい。',
     source: 'Mikasa Ackerman',
     image: '/anime/aot.svg',
+    logo: '/anime/logos/aot.svg',
     accent: '#16a34a',
     background: 'linear-gradient(135deg, rgba(31,41,55,0.85), rgba(22,163,74,0.6))',
   },
   {
     text: "Even if tomorrow repeats, I'll still fight to protect them.",
+    jp: '明日が繰り返されても、大切な人を守るために戦う。',
     source: 'Shinpei Ajiro',
     image: '/anime/summertime.svg',
+    logo: '/anime/logos/summertime.svg',
     accent: '#38bdf8',
     background: 'linear-gradient(135deg, rgba(99,102,241,0.75), rgba(56,189,248,0.72))',
   },
   {
     text: "If you're always worried about crushing the ants beneath you, you won't be able to walk.",
+    jp: '蟻を踏むことを気にしていたら、前に進めない。',
     source: 'Guts',
     image: '/anime/berserk.svg',
+    logo: '/anime/logos/berserk.svg',
     accent: '#dc2626',
     background: 'linear-gradient(135deg, rgba(17,24,39,0.8), rgba(220,38,38,0.7))',
   },
   {
     text: 'The only thing that can change your life is yourself.',
+    jp: '自分の人生を変えられるのは、自分だけだ。',
     source: 'Shinya Kogami',
     image: '/anime/psychopass.svg',
+    logo: '/anime/logos/psychopass.svg',
     accent: '#0d9488',
     background: 'linear-gradient(135deg, rgba(2,132,199,0.8), rgba(15,23,42,0.7))',
   },
   {
     text: "You can't ever win if you're always on the defensive.",
+    jp: '守りに入っていては、勝利は得られない。',
     source: 'L Lawliet',
     image: '/anime/deathnote.svg',
+    logo: '/anime/logos/deathnote.svg',
     accent: '#f8fafc',
     background: 'linear-gradient(135deg, rgba(15,23,42,0.85), rgba(75,85,99,0.65))',
   },
   {
     text: 'You have no enemies. No one in this world is your enemy.',
+    jp: 'この世に敵なんていない。誰もが友だ。',
     source: 'Thors',
     image: '/anime/vinland.svg',
+    logo: '/anime/logos/vinland.svg',
     accent: '#22c55e',
     background: 'linear-gradient(135deg, rgba(20,83,45,0.82), rgba(74,222,128,0.68))',
   },
   {
     text: "I’ll become the person who can stand beside him.",
+    jp: '彼の隣に立てる自分になる。',
     source: 'Kafka Hibino',
     image: '/anime/kaiju8.svg',
+    logo: '/anime/logos/kaiju8.svg',
     accent: '#0ea5e9',
     background: 'linear-gradient(135deg, rgba(30,41,59,0.85), rgba(14,165,233,0.7))',
   },
   {
     text: 'A peaceful life is worth fighting for.',
+    jp: '平穏な日常は戦って守る価値がある。',
     source: 'Taro Sakamoto',
     image: '/anime/sakamoto.svg',
+    logo: '/anime/logos/sakamoto.svg',
     accent: '#fb7185',
     background: 'linear-gradient(135deg, rgba(251,113,133,0.8), rgba(252,211,77,0.7))',
   },
   {
     text: "Believe in the things you can't see if you feel them.",
+    jp: '見えなくても感じるものを信じろ。',
     source: 'Momo Ayase',
     image: '/anime/dandadan.svg',
+    logo: '/anime/logos/dandadan.svg',
     accent: '#ec4899',
     background: 'linear-gradient(135deg, rgba(147,51,234,0.82), rgba(236,72,153,0.7))',
   },
   {
     text: 'I alone am the Monarch.',
+    jp: '俺は唯一の君主だ。',
     source: 'Sung Jinwoo',
     image: '/anime/sololeveling.svg',
+    logo: '/anime/logos/sololeveling.svg',
     accent: '#38bdf8',
     background: 'linear-gradient(135deg, rgba(17,24,39,0.88), rgba(56,189,248,0.68))',
   },
   {
     text: "I'll keep moving forward until I catch you!",
+    jp: '絶対に追いつくまで前に進み続ける！',
     source: 'Gon Freecss',
     image: '/anime/hunterxhunter.svg',
+    logo: '/anime/logos/hunterxhunter.svg',
     accent: '#22c55e',
     background: 'linear-gradient(135deg, rgba(34,197,94,0.78), rgba(239,68,68,0.65))',
   },
   {
     text: 'My magic is never giving up!',
+    jp: '俺の魔法は諦めないことだ！',
     source: 'Asta',
     image: '/anime/blackclover.svg',
+    logo: '/anime/logos/blackclover.svg',
     accent: '#22c55e',
     background: 'linear-gradient(135deg, rgba(31,41,55,0.82), rgba(34,197,94,0.7))',
   },
@@ -480,22 +517,6 @@ const App = () => {
     skip();
   }, [skip]);
 
-  const handleDurationChange = useCallback(
-    (key: 'focusMinutes' | 'shortBreakMinutes' | 'longBreakMinutes') =>
-      (event: ChangeEvent<HTMLInputElement>) => {
-        const rawValue = Number(event.target.value);
-        if (Number.isNaN(rawValue)) return;
-        const limits = {
-          focusMinutes: 180,
-          shortBreakMinutes: 60,
-          longBreakMinutes: 90,
-        } as const;
-        const value = Math.max(1, Math.min(limits[key], rawValue));
-        updateConfig({ [key]: value });
-      },
-    [updateConfig],
-  );
-
   const handleSessionsChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const rawValue = Number(event.target.value);
@@ -663,6 +684,33 @@ const App = () => {
         </div>
       </header>
 
+      <section className="hero" aria-labelledby="hero-title">
+        <div className="hero-content">
+          <p className="badge">Summon Your Flow</p>
+          <h2 id="hero-title">Craft legendary focus sessions with anime-grade ambience.</h2>
+          <p>
+            Blend tactical timers, adaptive ambience, and motivating quotes to stay locked-in on
+            what matters. Switch themes, tailor presets, and let FocusFlow guide every arc of your
+            deep work saga.
+          </p>
+          <div className="hero-actions">
+            <button type="button" className="hero-primary" onClick={handlePrimaryAction}>
+              {status === 'running' ? 'Stay in Flow' : 'Start a Focus Run'}
+            </button>
+            <button type="button" className="hero-ghost" onClick={() => setTheme('zen')}>
+              Zen Theme
+            </button>
+          </div>
+        </div>
+        <div className="hero-visual" aria-hidden="true">
+          <div className="hero-planet" />
+          <div className="hero-orbit">
+            <span>{formatDuration(remainingMs)}</span>
+            <small>{getPhaseLabel(phase)}</small>
+          </div>
+        </div>
+      </section>
+
       <div className="app-shell">
         <article
           ref={workspaceRef}
@@ -740,67 +788,105 @@ const App = () => {
 
         <aside className="panel" aria-label="Session controls">
           <section className="stack" aria-labelledby="timing-config">
-            <div className="timer-header">
+            <div className="section-head">
               <div>
-                <h2 id="timing-config">Timing</h2>
-                <span className="muted">Dial in the perfect cadence</span>
+                <h2 id="timing-config">Timer Alchemy</h2>
+                <span className="muted">Shape the cycle that fits your arc</span>
               </div>
             </div>
-            <div className="settings-grid" role="group" aria-label="Timer durations">
-              <label className="field-group" htmlFor="focus-duration">
-                Focus duration (minutes)
+            <div className="tactile-grid" role="group" aria-label="Timer durations">
+              {[
+                {
+                  id: 'focus-duration',
+                  label: 'Focus Burst',
+                  field: 'focusMinutes' as const,
+                  min: 5,
+                  max: 180,
+                  blurb: 'Deep work intensity',
+                },
+                {
+                  id: 'short-break',
+                  label: 'Short Recharge',
+                  field: 'shortBreakMinutes' as const,
+                  min: 1,
+                  max: 60,
+                  blurb: 'Micro reset cadence',
+                },
+                {
+                  id: 'long-break',
+                  label: 'Long Sanctuary',
+                  field: 'longBreakMinutes' as const,
+                  min: 5,
+                  max: 90,
+                  blurb: 'Extended recovery window',
+                },
+                {
+                  id: 'sessions-before-long',
+                  label: 'Focus Chains',
+                  field: 'sessionsBeforeLongBreak' as const,
+                  min: 1,
+                  max: 12,
+                  blurb: 'Loops before long sanctuary',
+                },
+              ].map(({ id, label, field, min, max, blurb }) => {
+                const value = field === 'sessionsBeforeLongBreak' ? config.sessionsBeforeLongBreak : config[field];
+                const step = field === 'sessionsBeforeLongBreak' ? 1 : 5;
+                const clamp = (input: number) => Math.max(min, Math.min(max, input));
+                const increment = (delta: number) => {
+                  updateConfig({ [field]: clamp(value + delta) } as Partial<TimerConfig>);
+                };
+
+                const handleSlide = (event: ChangeEvent<HTMLInputElement>) => {
+                  const raw = Number(event.target.value);
+                  if (Number.isNaN(raw)) return;
+                  updateConfig({ [field]: clamp(raw) } as Partial<TimerConfig>);
+                };
+
+                return (
+                  <div key={id} className="tactile-card">
+                      <header>
+                      <h3>{label}</h3>
+                      <span>{`${value} ${field === 'sessionsBeforeLongBreak' ? 'loops' : 'min'}`}</span>
+                      </header>
+                    <p className="muted">{blurb}</p>
+                    <div className="dial">
+                      <button type="button" aria-label={`Decrease ${label}`} onClick={() => increment(-step)}>
+                        −
+                      </button>
+                      <strong>{value}</strong>
+                      <button type="button" aria-label={`Increase ${label}`} onClick={() => increment(step)}>
+                        +
+                      </button>
+                    </div>
+                    <input
+                      id={id}
+                      className="range-input"
+                      type="range"
+                      min={min}
+                      max={max}
+                      step={field === 'sessionsBeforeLongBreak' ? 1 : 1}
+                      value={value}
+                      onChange={handleSlide}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <div className="auto-card">
+              <div>
+                <h3>Auto-launch next phase</h3>
+                <p>Let FocusFlow autopilot interval transitions while you stay in the groove.</p>
+              </div>
+              <label className="switch" htmlFor="auto-start">
+                <span className="sr-only">Toggle auto-start</span>
                 <input
-                  id="focus-duration"
-                  type="number"
-                  min={1}
-                  max={180}
-                  value={config.focusMinutes}
-                  onChange={handleDurationChange('focusMinutes')}
-                />
-              </label>
-              <label className="field-group" htmlFor="short-break">
-                Short break (minutes)
-                <input
-                  id="short-break"
-                  type="number"
-                  min={1}
-                  max={60}
-                  value={config.shortBreakMinutes}
-                  onChange={handleDurationChange('shortBreakMinutes')}
-                />
-              </label>
-              <label className="field-group" htmlFor="long-break">
-                Long break (minutes)
-                <input
-                  id="long-break"
-                  type="number"
-                  min={1}
-                  max={90}
-                  value={config.longBreakMinutes}
-                  onChange={handleDurationChange('longBreakMinutes')}
-                />
-              </label>
-              <label className="field-group" htmlFor="sessions-before-long">
-                Focus sessions before long break
-                <input
-                  id="sessions-before-long"
-                  type="number"
-                  min={1}
-                  max={12}
-                  value={config.sessionsBeforeLongBreak}
-                  onChange={handleSessionsChange}
+                  id="auto-start"
+                  type="checkbox"
+                  checked={config.autoStart}
+                  onChange={handleAutoStartToggle}
                 />
               </label>
             </div>
-            <label className="switch" htmlFor="auto-start">
-              <span>Auto-start next interval</span>
-              <input
-                id="auto-start"
-                type="checkbox"
-                checked={config.autoStart}
-                onChange={handleAutoStartToggle}
-              />
-            </label>
           </section>
 
           <section className="stack" aria-labelledby="preset-manager">

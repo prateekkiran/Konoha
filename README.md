@@ -6,9 +6,9 @@ FocusFlow is a premium-feeling Pomodoro-inspired timer that helps you design dee
 
 - **Adaptive timer engine** for focus, short break, and long break phases with start/pause/resume/reset/skip controls and accurate background ticking.
 - **Custom rhythms** – tweak durations, choose how many focus blocks trigger a long break, enable auto-start, and curate a personal library of presets you can load, update, or delete anytime.
-- **Immersive visuals** – light, dark, and zen themes, canvas-powered animated backgrounds with matching ambient pads, choice of circular or linear progress, plus a distraction-free fullscreen workspace.
+- **Immersive visuals** – anime-inspired hero banner, tactile timer controls, light/dark/zen themes, canvas-powered animated backgrounds with melodic pads, choice of circular or linear progress, plus a distraction-free fullscreen workspace.
 - **Gentle nudges** – three handcrafted Web Audio alarm tones with live preview, independent alarm/ticking/ambient volume sliders, optional ticking ambience during focus, and browser notifications when each interval completes.
-- **Anime groove** – rotating quotes from iconic anime heroes appear inside the timer, keeping motivation fresh while you work.
+- **Anime groove** – rotating quote showcases with bilingual lines, anime logos, and artwork keep motivation fresh while you work.
 - **Accessibility-first** – keyboard friendly, ARIA-labelled controls, high-contrast palettes, reduced motion support, and responsive layouts from mobile to desktop.
 
 ## Getting Started
